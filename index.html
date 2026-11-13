@@ -1,0 +1,63 @@
+!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tourist Trip Segmentation: PCA and t-SNE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main>
+<header>
+<h1>Tourist trip segmentation</h1>
+<p>Each dot is one trip described by 11 attributes. PCA and t-SNE squash those attributes into two dimensions so trips with the same purpose land near each other. Data is synthetic and generated in your browser.</p>
+</header>
+ 
+<section class="bar">
+<label>Trips <input id="n" type="range" min="300" max="900" step="100" value="600"><output id="nv">600</output></label>
+<label>Seed <input id="seed" type="number" value="42"></label>
+<label>Perplexity <input id="perp" type="range" min="5" max="60" value="30"><output id="pv">30</output></label>
+<label>Colour by <select id="cb"></select></label>
+<button id="go">Regenerate and run</button>
+<button id="rerun" class="ghost">Re-run t-SNE</button>
+</section>
+ 
+<section class="stats" id="stats"></section>
+ 
+<section class="grid">
+<figure><figcaption>PCA<small id="pcaSub"></small></figcaption><canvas id="c1"></canvas></figure>
+<figure><figcaption>t-SNE<small id="tsSub"></small></figcaption><canvas id="c2"></canvas></figure>
+</section>
+<div id="legend"></div>
+<p class="note">Hover a dot to see the same trip in both plots. Click a purpose to hide or show it.</p>
+<p class="note" id="grad" style="display:none">Colour runs from low (blue) to high (red) for the chosen attribute, clipped at two standard deviations. Use it to see what each region of the map means.</p>
+<div id="tip"></div>
+ 
+<div style="margin-top:26px"><h2>What drives each PCA axis</h2><div class="load" id="load"></div>
+<p class="note">Bars show the five attributes with the largest weight on each axis. Opposite colours pull in opposite directions, and the overall sign of an axis is arbitrary.</p></div>
+<section class="two">
+<div><h2>Segment profiles</h2><div class="scroll" id="prof"></div></div>
+<div>
+<h2>Place a new trip</h2>
+<p class="note" style="margin:0 0 6px">Start from a typical trip, then adjust:</p>
+<div class="sel" id="pre" style="margin-bottom:10px"></div>
+<div class="form" id="sl"></div>
+<div class="sel" style="margin-top:8px">
+<select id="tr" aria-label="Transport"></select><select id="se" aria-label="Season"></select><select id="co" aria-label="Companions"></select>
+</div>
+<div class="res" id="res"></div>
+<p class="note">Purpose comes from the 15 most similar trips. The star shows where the trip lands in PCA. In t-SNE the star sits at the average of its 5 nearest trips, because t-SNE cannot embed new points exactly.</p>
+</div>
+</section>
+</main>
+ 
+<script src="js/data.js"></script>
+<script src="js/pca.js"></script>
+<script src="js/tsne.js"></script>
+<script src="js/metrics.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>
